@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Brand Marketing Recommendation Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body { 
+  margin: 0; 
+  font-family: Arial, sans-serif; 
+  background: #f4f6f9; 
+}
+
+.header { 
+  background: #232f3e; 
+  color: white; 
+  padding: 20px; 
+  font-size: 26px; 
+  font-weight: bold; 
+  text-align: center;
+}
+
+.container { 
+  width: 100%; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* UPLOAD BOX */
+.upload-box { 
+  width: 90%;
+  max-width: 1400px;
+  background: white; 
+  padding: 25px; 
+  border-radius: 12px; 
+  box-shadow: 0 3px 12px rgba(0,0,0,0.1); 
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* FILE INPUTS IN ONE ROW */
+.upload-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow-x: auto;
+}
+
+.file-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fafafa;
+  border-radius: 10px;
+  padding: 15px;
+  width: 180px;
+  min-width: 180px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.file-group label {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* 🔥🔥 2 USERS PER ROW — FORCE GRID 🔥🔥 */
+.users-grid {
+  width: 95% !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 25px !important;
+  justify-items: stretch !important;
+}
+
+@media (max-width: 900px) {
+  .users-grid {
+    grid-template-columns: repeat(1, 1fr) !important;
+  }
+}
+
+/* USER CARD */
+.user-row {
+  width: 100%; 
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  border-left: 6px solid #232f3e;
+}
+
+.user-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-weight: bold;
+  margin: 12px 0 6px;
+  font-size: 16px;
+  color: #444;
+}
+
+/* PRODUCT CARDS */
+.cards { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 12px; 
+}
+
+.card {
+  width: 130px;
+  background: white;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.badge {
+  background: #ff7b00;
+  padding: 4px 8px;
+  color: white;
+  font-size: 12px;
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+.offer-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.offer-chip {
+  background: #ffefe0;
+  color: #d2691e;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  border: 1px solid #ffae6a;
+}
+
+/* BUTTONS */
+button { 
+  padding: 10px 18px; 
+  background: #0073e6; 
+  color: white; 
+  border: none; 
+  border-radius: 8px; 
+  cursor: pointer; 
+}
+button:hover { background: #005bb5; }
+</style>
+</head>
+
+<body>
+
+<div class="header">Brand Marketing Recommendation Dashboard</div>
+
+<div class="container">
+
+  <!-- UPLOAD -->
+  <div class="upload-box">
+    <h2>📤 Upload Data Files</h2>
+
+    <div class="upload-row">
+      <div class="file-group">
+        <label>Customers CSV:</label>
+        <input type="file" id="customersCSV">
+      </div>
+
+      <div class="file-group">
+        <label>Products CSV:</label>
+        <input type="file" id="productsCSV">
+      </div>
+
+      <div class="file-group">
+        <label>Purchases CSV:</label>
+        <input type="file" id="purchasesCSV">
+      </div>
+
+      <div class="file-group">
+        <label>Reviews CSV:</label>
+        <input type="file" id="reviewsCSV">
+      </div>
+
+      <div class="file-group">
+        <label>Offers CSV:</label>
+        <input type="file" id="offersCSV">
+      </div>
+    </div>
+
+    <br>
+    <button onclick="uploadAllCSVs()">Upload All</button>
+  </div>
+
+<!-- DOWNLOAD CSV BUTTON -->
+<div style="text-align:center; margin-bottom: 10px;">
+  <button onclick="downloadCSV()" 
+    style="background:#28a745; padding:12px 20px; 
+           border:none; border-radius:8px; color:white; 
+           font-size:15px; cursor:pointer;">
+    ⬇️ Download Recommendations CSV
+  </button>
+</div>
+
+<h2 style="text-align:center;margin-top:10px;">Recommendations & Offers</h2>
+
+
+  <!-- 🔥 INLINE STYLE TO FORCE 2 COLUMNS -->
+  <div class="users-grid" id="recommendations"
+       style="display:grid;grid-template-columns:repeat(2,1fr);gap:25px;">
+  </div>
+
+  <br>
+  <button onclick="exportCSV()">Export CSV</button>
+</div>
+
+<script>
+async function uploadFile(file, endpoint) {
+  if (!file) return;
+  const form = new FormData();
+  form.append("file", file);
+  await fetch(`http://127.0.0.1:8000/upload/${endpoint}`, { method: "POST", body: form });
+}
+
+async function uploadAllCSVs() {
+  await uploadFile(document.getElementById("customersCSV").files[0], "customers");
+  await uploadFile(document.getElementById("productsCSV").files[0], "products");
+  await uploadFile(document.getElementById("purchasesCSV").files[0], "purchases");
+  await uploadFile(document.getElementById("reviewsCSV").files[0], "reviews");
+  await uploadFile(document.getElementById("offersCSV").files[0], "offers");
+
+  alert("All CSVs uploaded!");
+  loadAllRecommendations();
+}
+
+async function loadAllRecommendations() {
+  const res = await fetch("http://127.0.0.1:8000/users");
+  const users = await res.json();
+  const container = document.getElementById("recommendations");
+  container.innerHTML = "";
+
+  for (const user of users) {
+    const recRes = await fetch(`http://127.0.0.1:8000/recommend/${user.id}`);
+    const data = await recRes.json();
+
+    let userHTML = `
+      <div class="user-row">
+        <div class="user-title">${user.name} (ID: ${user.id})</div>
+
+        <div class="section-title">🛍️ Recommended Products</div>
+        <div class="cards">
+    `;
+
+    data.products.forEach(p => {
+      const img = p.image || "https://via.placeholder.com/120";
+      userHTML += `
+        <div class="card">
+          <img src="${img}">
+          <div class="badge">${p.discount || 0}% OFF</div>
+          <div><b>${p.name}</b></div>
+        </div>
+      `;
+    });
+
+    userHTML += `</div>`;
+
+    userHTML += `
+      <div class="section-title">🎁 Active Offers</div>
+      <div class="offer-chips">
+    `;
+
+    data.offers.forEach(o => {
+      userHTML += `<div class="offer-chip">${o.discount}% OFF — ${o.title}</div>`;
+    });
+
+    userHTML += `</div></div>`;
+
+    container.innerHTML += userHTML;
+  }
+}
+
+function exportCSV() {
+  window.location.href = "http://127.0.0.1:8000/export_csv/";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+product_id,name,category,price,discount,image
+P101,Blue Denim Jeans,Clothing,1599,20,https://images.unsplash.com/photo-1514996937319-344454492b37
+P104,Running Shoes,Footwear,2899,30,https://images.unsplash.com/photo-1519861531473-9200262188bf
+P105,Red T-Shirt,Clothing,699,10,https://images.unsplash.com/photo-1521572163474-6864f9cf17ab
+P107,Analog Wrist Watch,Accessories,2499,18,https://images.unsplash.com/photo-1519741491043-6d1b6b85bf7c
+P110,Black Formal Shoes,Footwear,3199,28,https://images.unsplash.com/photo-1595341888016-a392ef81b7de
+P111,Travel Backpack,Bags,1799,15,https://images.unsplash.com/photo-1500530855697-b586d89ba3ee
+P112,Shoulder Handbag,Bags,2199,12,https://images.unsplash.com/photo-1542291026-7eec264c27ff
+P113,Stylish Sunglasses,Accessories,899,10,https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb
+P114,Graphic T-Shirt,Clothing,799,5,https://images.unsplash.com/photo-1512436991641-6745cdb1723f
+P115,High Ankle Boots,Footwear,3499,25,https://images.unsplash.com/photo-1542291026-7eec264c27ff

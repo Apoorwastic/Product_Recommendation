@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Marketing Intelligence Platform</title>
+<style>
+body { font-family: Arial; margin: 20px; background: #f6f6f6; }
+h1 { text-align: center; }
+.card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.upload-box input { padding: 10px; margin: 5px 0; width: 100%; }
+button { padding: 10px 15px; background: #ff9900; color: white; border: none; font-weight: bold; cursor: pointer; border-radius: 6px; }
+button:hover { background: #e68a00; }
+table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
+th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+.recommendation-box { padding: 10px; background: #fff8e5; border-radius: 6px; margin-top: 5px; border: 1px solid #ffd27f; }
+</style>
+</head>
+<body>
+
+<h1>Marketing Intelligence Platform</h1>
+
+<div class="card upload-box">
+    <h2>Upload CSV Files</h2>
+
+    <label>Customers CSV</label>
+    <input type="file" id="csv_customers">
+
+    <label>Products CSV</label>
+    <input type="file" id="csv_products">
+
+    <label>Purchases CSV</label>
+    <input type="file" id="csv_purchases">
+
+    <label>Reviews CSV</label>
+    <input type="file" id="csv_reviews">
+
+    <label>Offers CSV</label>
+    <input type="file" id="csv_offers">
+
+    <button onclick="uploadAll()">Upload All</button>
+</div>
+
+<div class="card">
+    <h2>Users in Database</h2>
+    <button onclick="fetchUsers()">Refresh User List</button>
+    <table id="userTable">
+        <thead>
+            <tr><th>User ID</th><th>Name</th><th>Action</th></tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <button onclick="bulkRecommend()">Generate Recommendations for ALL Users</button>
+</div>
+
+<div class="card">
+    <h2>Recommendations Output</h2>
+    <div id="output">No data yet.</div>
+    <button onclick="exportCSV()">Export as CSV</button>
+</div>
+
+<script>
+async function uploadFile(fileInput, endpoint) {
+    const file = document.getElementById(fileInput).files[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("file", file);
+    await fetch(`http://127.0.0.1:8000/upload/${endpoint}`, { method: "POST", body: formData });
+}
+
+async function uploadAll() {
+    await uploadFile("csv_customers", "customers");
+    await uploadFile("csv_products", "products");
+    await uploadFile("csv_purchases", "purchases");
+    await uploadFile("csv_reviews", "reviews");
+    await uploadFile("csv_offers", "offers");
+
+    alert("All CSVs uploaded successfully!");
+    fetchUsers(); // Auto-refresh users after upload
+}
+
+async function fetchUsers() {
+    const res = await fetch("http://127.0.0.1:8000/users");
+    const users = await res.json();
+    const tbody = document.querySelector("#userTable tbody");
+    tbody.innerHTML = "";
+
+    users.forEach(u => {
+        tbody.innerHTML += `
+            <tr>
+                <td>${u.id}</td>
+                <td>${u.name}</td>
+                <td><button onclick="recommend('${u.id}')">Recommend</button></td>
+            </tr>
+        `;
+    });
+}
+
+async function recommend(userId) {
+    const res = await fetch(`http://127.0.0.1:8000/recommend/${userId}`);
+    const data = await res.json();
+    document.getElementById("output").innerHTML =
+        `<div class='recommendation-box'>${JSON.stringify(data, null, 2)}</div>`;
+}
+
+async function bulkRecommend() {
+    const res = await fetch("http://127.0.0.1:8000/bulk_recommend/");
+    const data = await res.json();
+    document.getElementById("output").innerHTML =
+        `<div class='recommendation-box'>${JSON.stringify(data, null, 2)}</div>`;
+}
+
+async function exportCSV() {
+    window.location.href = "http://127.0.0.1:8000/export_csv/";
+}
+
+// Load users at startup
+fetchUsers();
+</script>
+
+</body>
+</html>

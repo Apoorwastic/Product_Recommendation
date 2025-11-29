@@ -1,0 +1,16 @@
+review_id,user_id,product_id,rating,review
+1,U101,P101,5,Great quality denim!
+2,U101,P103,4,Shoes are very comfortable.
+3,U102,P105,3,Color faded slightly.
+4,U102,P112,5,Very premium bag.
+5,U103,P104,4,Perfect running shoes.
+6,U103,P108,5,Jacket is warm and stylish.
+7,U104,P109,4,Good formal shirt.
+8,U104,P112,5,Excellent handbag.
+9,U105,P106,5,Very nice leather finish.
+10,U105,P110,4,Good formal shoes.
+11,U108,P103,5,Looks amazing, super comfy.
+12,U109,P115,5,Stylish and durable boots.
+13,U110,P107,4,Premium watch.
+14,U112,P113,5,Love the sunglasses!
+15,U112,P101,4,Good jeans for daily use.
