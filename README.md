@@ -103,14 +103,32 @@ You can add screenshots using Markdown like this:
 ---
 
 ## Quick Start
-1. Clone the repository:  
-```bash
+
+1. **Clone the repository**  
+
 git clone https://github.com/Apoorwastic/Product_Recommendation.git
-Navigate to the project folder:
+cd Product_Recommendation
+Run a local server
+
+Using Python 3:
 
 bash
 Copy code
-cd Product_Recommendation
-Open index.html in a browser.
+python -m http.server 8000
+Using Node.js:
 
-Upload CSV files, generate recommendations, and export the CSV.
+bash
+Copy code
+npm install -g http-server
+http-server -p 8000
+Open the dashboard
+Go to http://localhost:8000 in your browser.
+
+Upload CSV files
+Upload Customers.csv, Products.csv, Purchases.csv, Reviews.csv, and Offers.csv, then click Upload All.
+
+View recommendations & offers
+Users are displayed two per row with recommended products and active offers.
+
+Export CSV
+Click Export CSV to download all recommendations and offers.
